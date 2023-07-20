@@ -6,8 +6,8 @@ Library    BuiltIn
 *** Variables ***
 ${BROWSER}          chrome
 ${URL}              https://commoncents.vercel.app/    
-${USERNAME}   vinothinni+1@besquare.com.my
-${PASSWORD}   \#Hello1234
+${USERNAME}   commoncents@gmail.com
+${PASSWORD}   Testing123.
 ${InvalidPassword}   @#kjul12
 ${MAIN_TITLE}    //*[@class="banner-title"][1]
 ${LOGIN_BUTTON}    //*[@class="MuiTypography-root MuiTypography-body1 navbar-login-btn css-9l3uo3"]
@@ -37,7 +37,7 @@ ${USER_NAME_XPATH}         .//p[1]
 ${USER_BALANCE_XPATH}      .//p[2]
 
 
-*** Keywords ***
+*** Test Cases ***
 User buy trade and check whether win/loss
     [Documentation]    Verify that the user wins the trade when choosing "Higher" and spot value is higher/ choosing "Lower" and spot value is lower
     Open Browser       ${URL}      ${BROWSER}
@@ -52,9 +52,7 @@ User buy trade and check whether win/loss
     Choose Payout or Stake Contract
     Input Amount
     Click On Higher Option
-   
-    # Display the Status
-    Wait for Card Element and Check Status
+    Display the Status
     Get Leaderboard Position
     View Trade History  
     # Reset Balance
@@ -107,7 +105,7 @@ Click On Higher Option
 Click On Lower Option
     Click Button        //button[text()='Lower']
 
-Wait for Card Element and Check Status
+Display the Status
     Wait Until Page Contains Element    xpath=//*[@class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root proposal-summary-card css-s18byi"]    30
     ${card_element}    Get Webelement    xpath=//*[@class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root proposal-summary-card css-s18byi"]
     ${status_element}    Get Webelement    xpath=.//p[@class='MuiTypography-root MuiTypography-body1 css-9l3uo3']
@@ -138,22 +136,24 @@ View Trade History
     Wait Until Page Contains Element    //*[@class="trade-history-box MuiBox-root css-0"]    20
     Click Element   //*[@class="MuiBackdrop-root MuiModal-backdrop css-919eu4"]
     
-Reset Balance
-   Wait Until Page Contains Element    css=.trade-date-picker    20
-   Click Element    //*[@class="navbar-auth MuiBox-root css-0"]
-   Wait Until Page Contains Element    //*[@class="sidebar-container"]
-   Click Element    //*[@class="MuiBackdrop-root MuiModal-backdrop css-919eu4"]
-   Click Element    (//button[@class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-1hw9j7s"])[1]
-   Wait Until Page Contains Element    //*[@class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthSm css-uhb5lp"]    25
-   Click Element    //button[text()='Confirm']
-   Reload Page
-   Wait Until Page Contains Element    xpath=//div[@class="navbar-balance MuiBox-root css-0"]
-   ${element}=    Get Text    xpath=//div[@class="navbar-balance MuiBox-root css-0"]
-   Should Be Equal As Strings    ${element}    100000.00 USD
+# Reset Balance
+#    Wait Until Page Contains Element    css=.trade-date-picker    20
+#    Click Element    //*[@class="navbar-auth MuiBox-root css-0"]
+#    Wait Until Page Contains Element    //*[@class="sidebar-container"]
+#    Click Element    //*[@class="MuiBackdrop-root MuiModal-backdrop css-919eu4"]
+#    Click Element    (//button[@class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-1hw9j7s"])[1]
+#    Wait Until Page Contains Element    //*[@class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthSm css-uhb5lp"]    25
+#    Click Element    //button[text()='Confirm']
+#    Reload Page
+#    Wait Until Page Contains Element    xpath=//div[@class="navbar-balance MuiBox-root css-0"]
+#    ${element}=    Get Text    xpath=//div[@class="navbar-balance MuiBox-root css-0"]
+#    Should Be Equal As Strings    ${element}    100000.00 USD
 
   
 Logout
    Click Element    //*[@class="navbar-auth MuiBox-root css-0"]
    Wait Until Page Contains Element    //*[@class="sidebar-container"]
    Click Element    //button[text()='Log Out']
+   Wait Until Page Contains Element    //*[id="logout-confirmation-dialog-title"]
+   Click Element    //button[text()='Confirm']
    Wait Until Page Contains Element     ${MAIN_TITLE}    30
